@@ -1,5 +1,5 @@
 const fetchProductList = async () => {
-  return fetch("/api/product/list").then((res) => res.json());
+  return fetch('/api/product/list').then((res) => res.json());
 };
 
 const fetchProduct = async (id) => {
