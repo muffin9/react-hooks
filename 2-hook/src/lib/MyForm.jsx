@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const useForm = ({ initialValue, validate, onSubmit }) => {
   const [values, setValues] = React.useState(initialValue);
@@ -64,7 +64,7 @@ export const useForm = ({ initialValue, validate, onSubmit }) => {
 };
 
 const formContext = React.createContext({});
-formContext.displayName = "FormContext";
+formContext.displayName = 'FormContext';
 
 export const Form = ({ id, className, children, ...rest }) => {
   const formValue = useForm(rest);
@@ -82,12 +82,12 @@ export const Form = ({ id, className, children, ...rest }) => {
   );
 };
 
-export const Field = ({ as = "input", children, ...rest }) => {
+export const Field = ({ as = 'input', children, ...rest }) => {
   const { getFieldProps } = React.useContext(formContext);
   return React.createElement(
     as,
     { ...rest, ...getFieldProps(rest.name) },
-    children
+    children,
   );
 };
 

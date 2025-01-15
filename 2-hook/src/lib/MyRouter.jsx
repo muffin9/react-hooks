@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
 export const routerContext = React.createContext({});
-routerContext.displayName = "RouterContext";
+routerContext.displayName = 'RouterContext';
 
 export const Router = ({ children }) => {
   const [path, setPath] = React.useState(window.location.pathname);
 
   const changePath = (path) => {
     setPath(path);
-    window.history.pushState({ path }, "", path);
+    window.history.pushState({ path }, '', path);
   };
 
   const handlePopstate = (event) => {
@@ -18,10 +18,10 @@ export const Router = ({ children }) => {
   };
 
   React.useEffect(() => {
-    window.addEventListener("popstate", handlePopstate);
-    window.history.replaceState({ path }, "");
+    window.addEventListener('popstate', handlePopstate);
+    window.history.replaceState({ path }, '');
     return () => {
-      window.removeEventListener("popstate", handlePopstate);
+      window.removeEventListener('popstate', handlePopstate);
     };
   }, []);
 
@@ -50,7 +50,7 @@ export const Routes = ({ children }) => {
 
     // Route에 등록된 컴포넌트가 요청한 경로에 해당하는지 검사한다.
     // 요청 경로에서 쿼리 문자열을 제거하고 비교한다.
-    if (child.props.path !== path.replace(/\?.*$/, "")) return;
+    if (child.props.path !== path.replace(/\?.*$/, '')) return;
 
     // 엘리먼트를 찾았다.
     selectedRoute = child.props.element;

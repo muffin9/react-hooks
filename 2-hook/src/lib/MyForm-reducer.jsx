@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const getInitialState = (values) => ({
   values,
@@ -7,7 +7,7 @@ const getInitialState = (values) => ({
 });
 
 const formReducer = (state, action) => {
-  if (action.type === "SET_VALUES") {
+  if (action.type === 'SET_VALUES') {
     return {
       ...state,
       values: {
@@ -16,7 +16,7 @@ const formReducer = (state, action) => {
       },
     };
   }
-  if (action.type === "SET_TOUCHED") {
+  if (action.type === 'SET_TOUCHED') {
     return {
       ...state,
       touched: {
@@ -25,7 +25,7 @@ const formReducer = (state, action) => {
       },
     };
   }
-  if (action.type === "SET_TOUCHED_ALL") {
+  if (action.type === 'SET_TOUCHED_ALL') {
     return {
       ...state,
       touched: Object.keys(state.values).reduce((touched, field) => {
@@ -34,7 +34,7 @@ const formReducer = (state, action) => {
       }, {}),
     };
   }
-  if (action.type === "VALIDATE") {
+  if (action.type === 'VALIDATE') {
     return {
       ...state,
       errors: action.validate(state.values),
@@ -47,32 +47,33 @@ const formReducer = (state, action) => {
 export const useForm = ({ initialValue, validate, onSubmit }) => {
   const [state, dispatch] = React.useReducer(
     formReducer,
-    getInitialState(initialValue)
+    getInitialState(initialValue),
   );
 
   const handleChange = (e) => {
     dispatch({
-      type: "SET_VALUES",
+      type: 'SET_VALUES',
       name: e.target.name,
       value: e.target.value,
     });
   };
 
   const handleBlur = (e) => {
-    dispatch({ type: "SET_TOUCHED", name: e.target.name });
+    dispatch({ type: 'SET_TOUCHED', name: e.target.name });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch({ type: "SET_TOUCHED_ALL" });
+    dispatch({ type: 'SET_TOUCHED_ALL' });
 
-    const nextState = formReducer(state, { type: "VALIDATE", validate });
+    const nextState = formReducer(state, { type: 'VALIDATE', validate });
     if (Object.values(nextState.errors).some(Boolean)) return;
 
     onSubmit(nextState.values);
   };
 
+  // Prop Getter 패턴
   const getFieldProps = (name) => {
     const value = state.values[name];
     const onBlur = handleBlur;
@@ -87,7 +88,7 @@ export const useForm = ({ initialValue, validate, onSubmit }) => {
   };
 
   React.useEffect(() => {
-    dispatch({ type: "VALIDATE", validate });
+    dispatch({ type: 'VALIDATE', validate });
   }, [state.values]);
 
   return {
@@ -100,7 +101,7 @@ export const useForm = ({ initialValue, validate, onSubmit }) => {
 };
 
 const formContext = React.createContext({});
-formContext.displayName = "FormContext";
+formContext.displayName = 'FormContext';
 
 export const Form = ({ id, className, children, ...rest }) => {
   const formValue = useForm(rest);
@@ -118,12 +119,12 @@ export const Form = ({ id, className, children, ...rest }) => {
   );
 };
 
-export const Field = ({ as = "input", children, ...rest }) => {
+export const Field = ({ as = 'input', children, ...rest }) => {
   const { getFieldProps } = React.useContext(formContext);
   return React.createElement(
     as,
     { ...rest, ...getFieldProps(rest.name) },
-    children
+    children,
   );
 };
 
